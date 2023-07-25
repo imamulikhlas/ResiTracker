@@ -10,7 +10,7 @@
   - Update Resi 
 
   ## Tech Stack  
-  **Client:** Nuxt.Js  
+  **Client:** VueJs  
 
   **Server:** Laravel   
 
