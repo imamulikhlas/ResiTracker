@@ -6,28 +6,33 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // Generate access token for the registered user
-        $token = $user->createToken('api_token')->plainTextToken;
-
-        return response()->json(['token' => $token], 201);
+        try {
+            $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users',
+                'password' => 'required|string|min:8',
+            ]);
+    
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+    
+            // Generate access token for the registered user
+            $token = $user->createToken('api_token')->plainTextToken;
+    
+            return response()->json(['token' => $token], 201);
+        } catch (ValidationException $e) {
+            // Validation error occurred, email is already registered
+            return response()->json(['error' => 'Email is already registered.'], 422);
+        }
     }
 
     public function login(Request $request)
