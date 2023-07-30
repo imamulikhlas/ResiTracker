@@ -58,4 +58,17 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
+
+    public function verifyToken(Request $request)
+    {
+        // Verifikasi token dengan Sanctum
+        if (Auth::guard('sanctum')->check()) {
+            // Jika token valid, kembalikan informasi pengguna terotentikasi
+            $user = Auth::guard('sanctum')->user();
+            return response()->json($user);
+        } else {
+            // Jika token tidak valid, berikan response error
+            return response()->json(['message' => 'Invalid token.'], 401);
+        }
+    }
 }
