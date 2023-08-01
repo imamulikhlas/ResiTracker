@@ -1,5 +1,7 @@
 <template>
     <div>
-        TES HOME
+        <RouterLink
+        :to="{ name: 'dashboard',params:{id:1}}"
+        >dashboard</RouterLink>                                 
     </div>
 </template>
