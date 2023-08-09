@@ -25,9 +25,11 @@ const router = createRouter({
                 } else {
                   next();
                 }
+            },
+            meta: {
+                requiresAuth: true
             }
         },
-
         {
             name:"404",
             path: '/:pathMatch(.*)*',

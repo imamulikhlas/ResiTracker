@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: 'https://api1.mams-ark.my.id/api/',
 });
 
 //Get Token auth_token in Header in all request
